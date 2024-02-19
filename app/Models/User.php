@@ -55,6 +55,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(MaterialBooking::class);
     }
+    public function dlt(): hasMany
+    {
+        return  $this->hasMany(Dlt::class);
+    }
 
     public function ticketings() : HasMany
     {

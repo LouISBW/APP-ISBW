@@ -26,6 +26,11 @@ class Statut extends Model
 
     }
 
+    public function dlt(): hasMany
+    {
+        return  $this->hasMany(Dlt::class);
+    }
+
     public function roombooking() : HasMany
     {
         return $this->hasMany(RoomBooking::class, 'statut_id');

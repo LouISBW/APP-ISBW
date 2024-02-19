@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticketings', function (Blueprint $table) {
+        Schema::create('dlts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->date('date_creation')->nullable();
-            $table->string('subject')->nullable();
-            $table->text('description')->nullable();
-            $table->foreignId('statut_id')->default(7)->nullable()->constrained('statuts');
-            $table->string('attachment')->nullable();
-            $table->date('date_cloture')->nullable();
+            $table->string('month')->nullable();
+            $table->integer('nbr_dlt')->nullable();
+            $table->foreignId('statut_id')->default(6)->nullable()->constrained('statuts');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticketings');
+        Schema::dropIfExists('dlts');
     }
 };
