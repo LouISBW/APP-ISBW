@@ -10,7 +10,13 @@ class Dlt extends Model
 {
     use HasFactory;
 
-
+    protected $fillable = [
+        'user_id',
+        'month',
+        'nbr_dlt',
+        'statut_id',
+        'verifkey',
+    ];
 
     public function statut() : BelongsTo
     {

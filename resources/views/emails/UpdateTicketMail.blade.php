@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mise à jour de votre ticket du : {{ $booking->date->format('d/m/Y') }} </title>
+    <title>Mise à jour de votre ticket du : {{ $booking->date}} </title>
 </head>
 <body>
 <p>Le statut de votre ticket est passé sur: <strong>{{ $booking->statut->name }}</strong></p>

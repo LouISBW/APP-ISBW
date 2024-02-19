@@ -146,7 +146,7 @@ class MaterialBookingResource extends Resource
         return $table
             ->query($query)
             ->columns([
-                Tables\Columns\TextColumn::make('date_depart')
+                TextColumn::make('date_depart')
                     ->label('Date de départ')
                     ->date()
                     ->sortable(),

@@ -5,8 +5,17 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ServiceTicketingResource\Pages;
 use App\Filament\Resources\ServiceTicketingResource\RelationManagers;
 use App\Models\ServiceTicketing;
+use App\Models\Statut;
 use App\Models\Ticketing;
+use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,6 +23,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceTicketingResource extends Resource
 {
@@ -44,15 +54,84 @@ class ServiceTicketingResource extends Resource
 
     public static function form(Form $form): Form
     {
+
         return $form
             ->schema([
-                //
+                Section::make('Information utilisateur')
+                    ->columns(4)
+                    ->schema([
+                        Select::make('user_id')
+                            ->label('Demandeur')
+                            ->disabled()
+                            ->relationship('user','name')
+                            -> required(),
+                        Select::make('statut_id')
+                            ->label('Statut')
+                            ->options(Statut::whereIn('id', [1, 7, 9,11])->pluck('name', 'id'))
+                            -> required(),
+                        DatePicker::make('date_creation')
+                            ->required()
+                            ->date()
+                            ->readonly()
+                            ->hiddenOn('edit')
+                            ->default(now())
+                            ->timezone('Europe/Brussels')
+                            ->columnSpan(1)
+                            ->label('Date'),
+                        Select::make('assigned_to')
+                            ->label('Assigné à')
+                            ->options([
+                                'Pierre Lucas' => 'Pierre Lucas',
+                                'Sébastien Farese' => 'Sébastien Farese',
+                                'Louis VanRenterghem' => 'Louis VanRenterghem'
+                            ])
+                            -> required(),
+                    ]),
+                Section::make('Information Ticket')
+                    ->columns(4)
+                    ->schema([
+                        Select::make('type_demande')
+                            ->label('Type de demande')
+                            ->columnStart(1)
+                            ->columnSpan(2)
+                            ->required()
+                            ->options([
+                                'Question' => 'Question',
+                                'Problème' => 'Problème',
+                                'Demande de changement site/intranet' => 'Demande de changement site/intranet',
+                                'Autre' => 'Autre',
+                            ]),
+                        Select::make('type_ticketing_id')
+                            ->label('Sévérité')
+                            ->required()
+                            ->relationship('type_ticketing','name'),
+                        TextInput::make('subject')
+                            ->label('Sujet de la demande')
+                            ->visibleOn('create')
+                            ->columnStart(1)
+                            ->columnSpan(3)
+                            ->required(),
+                        Textarea::make('description')
+                            ->label('Description')
+                            ->columnSpan(4)
+                            ->rows(10)
+                            ->columnStart(1)
+                            ->placeholder("Veuillez décrire avec précision votre problème afin que nos équipes puissent vous aider au plus vite")
+                            ->required(),
+                        FileUpload::make('attachment')
+                            ->label('Pièce jointe')
+                            ->columnStart(1)
+                            ->columnSpan(4)
+
+
+
+                    ]),
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        $query = Ticketing::where('statut_id', 7);
+        $query = Ticketing::whereIn('statut_id', [1, 7, 11]);
         return $table
             ->query($query)
             ->columns([
@@ -74,7 +153,8 @@ class ServiceTicketingResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Transmis au service Infocom' => 'warning',
-                        'En cours' => 'success',
+                        'En Cours' => 'success',
+                        'Assigné' => 'info'
                     })
             ])
             ->filters([
