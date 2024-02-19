@@ -35,10 +35,6 @@ class MaterialBookingResource extends Resource
     protected static ?string $modelLabel = 'Réservation Matériel';
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
-    public static function shouldRegisterNavigation(): bool
-    {
-        return auth()->user()->can('Voir Formulaires');
-    }
     public static function getNavigationBadge(): ?string
     {
         return 'NEW';

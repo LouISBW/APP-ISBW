@@ -18,7 +18,7 @@ class Ticketing extends Model
         'statut_id',
         'attachment',
         'date_cloture',
-        
+
     ];
 
     public function statut() : BelongsTo
