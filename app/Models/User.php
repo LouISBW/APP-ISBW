@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(MaterialBooking::class);
     }
+
+    public function ticketings() : HasMany
+    {
+        return $this->hasMany(Ticketing::class);
+    }
 }

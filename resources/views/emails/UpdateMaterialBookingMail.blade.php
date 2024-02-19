@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mise à jour réservation de salle du : {{ $booking->date->format('d/m/Y') }} </title>
+    <title>Mise à jour réservation du : {{ $booking->date_depart }} </title>
 </head>
 <body>
 <p>Le statut de votre réservation de salle est passé sur: <strong>{{ $booking->statut->name }}</strong></p>

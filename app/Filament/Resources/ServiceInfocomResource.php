@@ -6,13 +6,23 @@ use App\Filament\Resources\ServiceInfocomResource\Pages;
 use App\Filament\Resources\ServiceInfocomResource\RelationManagers;
 use App\Models\MaterialBooking;
 use App\Models\ServiceInfocom;
+use App\Models\Statut;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceInfocomResource extends Resource
 {
@@ -45,20 +55,125 @@ class ServiceInfocomResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Section::make('Information utilisateur')
+                    ->columns(4)
+                    ->schema([
+                        Select::make('user_id')
+                            ->label('Demandeur')
+                            ->disabled()
+                            ->relationship('user','name')
+                            -> required(),
+                        Select::make('statut_id')
+                            ->label('Statut')
+                            ->options(Statut::whereIn('id', [2, 3, 7])->pluck('name', 'id'))
+                            -> required(),
+                        Textarea::make('motif_refus')
+                            ->label('Motif du refus')
+                            ->columnStart(1)
+                            ->columnSpan(4),
+                        DatePicker::make('date_depart')
+                            ->required()
+                            ->timezone('Europe/Brussels')
+                            ->columnStart(1)
+                            ->columnSpan(1)
+                            ->label('Date de départ'),
+                        DatePicker::make('date_retour')
+                            ->required()
+                            ->timezone('Europe/Brussels')
+                            ->columnSpan(1)
+                            ->label('Date de retour'),
+                    ]),
+                Section::make('Matériel demandé')
+                    ->columns(4)
+                    ->schema([
+                        Toggle::make('rollup1')
+                            ->label('Rollup By Laurence')
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('rollup2')
+                            ->label('Rollup By Catherine')
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('rollup3')
+                            ->label('Rollup By Astrid')
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('hp')
+                            ->label('Haut Parleur')
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('beach1')
+                            ->label('Beach Flag 1')
+                            ->columnStart(1)
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('beach2')
+                            ->label('Beach Flag 2')
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('beach3')
+                            ->label('Beach Flag 3')
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('piedhp')
+                            ->label('Pied Haut Parleur')
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('projecteur')
+                            ->label('Projecteur')
+                            ->columnStart(1)
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('portable')
+                            ->label('Pc Portable')
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('multiprise')
+                            ->label('Multiprise')
+                            ->onIcon('heroicon-m-bolt')
+                            ->offIcon('heroicon-m-user'),
+                    ]),
+                Section::make('Divers')
+                    ->columns(4)
+                    ->schema([
+                        Textarea::make('remarques')
+                            ->label('Remarques')
+                            ->columnSpan(4),
+                    ]),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $query = MaterialBooking::where('statut_id', 7);
         return $table
+            ->query($query)
             ->columns([
-                //
+                TextColumn::make('user.name')
+                    ->label('Demandeur')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('date_depart')
+                    ->label('Date de départ')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('date_retour')
+                    ->label('Date de départ')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('statut.name')
+                    ->label('Statut')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Transmis au service Infocom' => 'warning',
+                        'Approuvé' => 'success',
+                        'Refusé' => 'danger',
+                    })
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

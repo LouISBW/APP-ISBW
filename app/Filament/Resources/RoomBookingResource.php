@@ -146,11 +146,11 @@ class RoomBookingResource extends Resource
                     ->columns(4)
                     ->schema([
                         Toggle::make('projecteur')
-                            ->label('Projecteur')
+                            ->label('Projecteur (InBw)')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-user'),
                         Toggle::make('filp')
-                            ->label('Flipchart')
+                            ->label('Flipchart (InBw)')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-user'),
                     ]),
@@ -159,6 +159,7 @@ class RoomBookingResource extends Resource
                     ->schema([
                         Textarea::make('remarques')
                             ->label('Remarques')
+                            ->placeholder("Veuillez noter si du matériel autre que celui de l'InBW est nécessaire")
                             ->columnSpan(4),
                     ]),
             ]);

@@ -2,13 +2,28 @@
 
 namespace App\Models;
 
+use App\Mail\NewRoomBookingMail;
+use App\Mail\UpdateRoomBookingMail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Mail;
 
 class MaterialBooking extends Model
 {
     use HasFactory;
+
+    protected static function booted()
+    {
+        static::created(function ($record) {
+            Mail::to('sebastien.farese@isbw.be')->send(new \App\Mail\NewMaterialBookingMail($record));
+        });
+
+        static::updated(function ($booking) {
+
+            Mail::to($booking->user->email)->send(new \App\Mail\UpdateMaterialBookingMail($booking));
+        });
+    }
 
     protected $fillable = [
         'date_depart',
@@ -38,4 +53,6 @@ class MaterialBooking extends Model
     {
         return $this->belongsTo(Statut::class);
     }
+
+
 }

@@ -6,6 +6,7 @@ use App\Filament\Resources\SecretariatDirectionResource\Pages;
 use App\Filament\Resources\SecretariatDirectionResource\RelationManagers;
 use App\Models\RoomBooking;
 use App\Models\SecretariatDirection;
+use App\Models\Statut;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
@@ -68,8 +69,12 @@ class SecretariatDirectionResource extends Resource
                             -> required(),
                         Select::make('statut_id')
                             ->label('Statut')
-                            ->relationship('statut','name')
+                            ->options(Statut::whereIn('id', [2, 3, 8])->pluck('name', 'id'))
                             -> required(),
+                        Textarea::make('motif_refus')
+                            ->label('Motif du refus')
+                            ->columnStart(1)
+                            ->columnSpan(4),
                         DatePicker::make('date')
                             ->required()
                             ->timezone('Europe/Brussels')
@@ -141,11 +146,11 @@ class SecretariatDirectionResource extends Resource
                     ->columns(4)
                     ->schema([
                         Toggle::make('projecteur')
-                            ->label('Projecteur')
+                            ->label('Projecteur (InBw)')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-user'),
                         Toggle::make('filp')
-                            ->label('Flipchart')
+                            ->label('Flipchart (InBw)')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-user'),
                     ]),

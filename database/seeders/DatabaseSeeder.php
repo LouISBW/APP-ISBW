@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DepartmentSeeder::class);
         $this->call(ServiceSeeder::class);
         $this->call(StatutSeeder::class);
+        $this->call(TypeTicketSeeder::class);
 
     }
 }

@@ -56,10 +56,16 @@ class MaterialBookingResource extends Resource
                         TextInput::make('user.name')
                             ->label('Utilisateur')
                             ->default($user->name)
+                            ->visibleOn('create')
                             ->disabled()
                             ->columnSpan(1)
                             ->dehydrated(false)
                             ->required(),
+                        Textarea::make('motif_refus')
+                            ->columnSpan(4)
+                            ->disabled()
+                            ->label('Motif du refus')
+                            ->hiddenOn('create'),
                         Hidden::make('user_id')
                             ->default(Auth::id()),
                         Hidden::make('statut_id')
