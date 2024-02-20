@@ -59,6 +59,16 @@ class ServiceResource extends Resource
                             ->label('Département')
                             ->columnSpan(2)
                             ->relationship('department', 'name'),
+                        Select::make('approver_id')
+                            ->preload()
+                            ->columnStart(1)
+                            ->required()
+                            ->label('Responsable Approbation')
+                            ->relationship('approver', 'name'),
+                        Select::make('second_approver_id')
+                            ->preload()
+                            ->label('Suppléant')
+                            ->relationship('second_approver', 'name'),
                     ]),
             ]);
     }

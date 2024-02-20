@@ -35,4 +35,9 @@ class Statut extends Model
     {
         return $this->hasMany(RoomBooking::class, 'statut_id');
     }
+
+    public function notedefrais(): hasMany
+    {
+        return  $this->hasMany(NoteDeFrais::class);
+    }
 }

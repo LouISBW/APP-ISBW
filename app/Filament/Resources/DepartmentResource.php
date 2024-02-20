@@ -50,6 +50,15 @@ class DepartmentResource extends Resource
                             ->columnSpan(2)
                             ->placeholder('Entrez le nom du département')
                             ->required(),
+                        Select::make('approver_id')
+                            ->preload()
+                            ->required()
+                            ->label('Responsable Approbation')
+                            ->relationship('approver', 'name'),
+                        Select::make('second_approver_id')
+                            ->preload()
+                            ->label('Suppléant')
+                            ->relationship('second_approver', 'name'),
                     ]),
             ]);
     }

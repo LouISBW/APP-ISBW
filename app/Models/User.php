@@ -51,6 +51,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Service::class);
     }
 
+    public function department()
+    {
+        return $this->belongsToMany(Department::class);
+    }
+
     public function materials() : HasMany
     {
         return $this->hasMany(MaterialBooking::class);
@@ -58,6 +63,11 @@ class User extends Authenticatable
     public function dlt(): hasMany
     {
         return  $this->hasMany(Dlt::class);
+    }
+
+    public function notedefrais(): hasMany
+    {
+        return  $this->hasMany(NoteDeFrais::class);
     }
 
     public function ticketings() : HasMany

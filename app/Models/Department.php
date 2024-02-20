@@ -20,4 +20,14 @@ class Department extends Model
     {
         return $this->hasMany(Service::class);
     }
+
+    public function approver()
+    {
+        return $this->belongsTo(User::class, 'approver_id');
+    }
+    public function second_approver()
+    {
+        return $this->belongsTo(User::class, 'second_approver_id');
+    }
+
 }

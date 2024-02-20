@@ -7,22 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Mail;
 
-class Dlt extends Model
+class NoteDeFrais extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'user_id',
         'month',
-        'nbr_dlt',
+        'montant',
+        'user_id',
         'statut_id',
-        'verifkey',
+        'type_nfs_id',
+        'justificatif',
+        'motif_refus',
     ];
 
     protected static function booted()
     {
         static::created(function ($record) {
-            Mail::to($record->user->email)->send(new \App\Mail\NewDltMail($record));
+            Mail::to($record->user->email)->send(new \App\Mail\NewNoteDeFraisMail($record));
+            Mail::to('sebastien.farese@isbw.be')->send(new \App\Mail\ApprovalNoteDeFraisMail($record));
+            Mail::to('infocom@isbw.be')->send(new \App\Mail\SecondApprovalNoteDeFraisMail($record));
         });
 
     }
@@ -37,7 +40,9 @@ class Dlt extends Model
         return $this->belongsTo(User::class);
     }
 
-
-
+    public function type_nfs() : BelongsTo
+    {
+        return $this->belongsTo(TypeNf::class);
+    }
 
 }
