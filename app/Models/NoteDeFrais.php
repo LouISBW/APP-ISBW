@@ -23,9 +23,17 @@ class NoteDeFrais extends Model
     protected static function booted()
     {
         static::created(function ($record) {
+
+            $service = $record->user->services->first();
+            $ApproverId = $service->approver_id;
+            $SecondApproverId = $service->second_approver_id;
+
+            $ApproverMail = User::where('id', $ApproverId)->value('email');
+            $SecondApproverEmail = User::where('id', $SecondApproverId)->value('email');
+
             Mail::to($record->user->email)->send(new \App\Mail\NewNoteDeFraisMail($record));
-            Mail::to('sebastien.farese@isbw.be')->send(new \App\Mail\ApprovalNoteDeFraisMail($record));
-            Mail::to('infocom@isbw.be')->send(new \App\Mail\SecondApprovalNoteDeFraisMail($record));
+            Mail::to($ApproverMail)->send(new \App\Mail\ApprovalNoteDeFraisMail($record));
+            Mail::to($SecondApproverEmail)->send(new \App\Mail\SecondApprovalNoteDeFraisMail($record));
         });
 
     }
