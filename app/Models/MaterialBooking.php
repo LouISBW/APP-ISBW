@@ -42,6 +42,8 @@ class MaterialBooking extends Model
         'motif_refus',
         'user_id',
         'statut_id',
+        'heure_depart',
+        'installation',
     ];
 
     public function user() : BelongsTo

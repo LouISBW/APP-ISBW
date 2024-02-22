@@ -85,9 +85,11 @@ class SecretariatDirectionResource extends Resource
                             ->required()
                             ->timezone('Europe/Brussels')
                             ->columnSpan(1)
+                            ->seconds(false)
                             ->label('Heure de début'),
                         TimePicker::make('heure_fin')
                             ->required()
+                            ->seconds(false)
                             ->timezone('Europe/Brussels')
                             ->columnSpan(1)
                             ->label('Heure de fin'),

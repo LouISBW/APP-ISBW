@@ -8,6 +8,7 @@
 
 <p>Vous pouvez retrouver tous les détails du ticket en suivant ce lien : <a href="https://dev.isbw.be/ticketings/{{ $booking->id }}/view">Voir le Ticket</a></p>
 
+<p>bonne journée</p>
 <p>L'équipe <strong>Infocom</strong></p>
 </body>
 </html>

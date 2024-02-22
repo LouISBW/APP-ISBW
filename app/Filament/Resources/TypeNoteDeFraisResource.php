@@ -22,7 +22,7 @@ class TypeNoteDeFraisResource extends Resource
 
     protected static ?string $modelLabel = 'Paramètres Notes de frais';
 
-    protected static ?string $navigationGroup = 'Service BFI';
+    protected static ?string $navigationGroup = 'Pôle Budget et Finances ';
 
     protected static ?string $navigationIcon = 'heroicon-o-adjustments-horizontal';
 

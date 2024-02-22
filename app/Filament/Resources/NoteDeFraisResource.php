@@ -6,6 +6,7 @@ use App\Filament\Resources\NoteDeFraisResource\Pages;
 use App\Filament\Resources\NoteDeFraisResource\RelationManagers;
 use App\Models\MaterialBooking;
 use App\Models\NoteDeFrais;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
@@ -14,6 +15,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Pages\Actions\CreateAction;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -28,8 +30,8 @@ class NoteDeFraisResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
     protected static ?string $navigationGroup = 'Mes demandes';
-    protected static ?string $navigationLabel = 'Encodage Note de Frais';
-    protected static ?string $modelLabel = 'Encodage Note de Frais';
+    protected static ?string $navigationLabel = 'Dépot Note de Frais';
+    protected static ?string $modelLabel = 'Dépot Note de Frais';
 
     public static function getNavigationBadge(): ?string
     {
@@ -39,6 +41,7 @@ class NoteDeFraisResource extends Resource
     {
         return false;
     }
+
 
 
     public static function form(Form $form): Form
@@ -87,6 +90,7 @@ class NoteDeFraisResource extends Resource
                             ->required(),
                         FileUpload::make('justificatif')
                             ->columnSpan(4)
+                            ->multiple()
                             ->preserveFilenames(),
                     ]),
             ]);
@@ -124,6 +128,9 @@ class NoteDeFraisResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -29,7 +29,7 @@ class ServiceBFIResource extends Resource
     protected static ?string $model = NoteDeFrais::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
-    protected static ?string $navigationGroup = 'Service BFI';
+    protected static ?string $navigationGroup = 'Pôle Budget et Finances ';
     protected static ?string $navigationLabel = 'Validation Note de Frais';
     protected static ?string $modelLabel = 'Validation Note de Frais';
 

@@ -56,9 +56,6 @@ class DltResource extends Resource
                             ->default(Auth::id()),
                         Hidden::make('statut_id')
                             ->default(6),
-                        TextInput::make('verifkey')
-                            ->readOnly()
-                            ->unique(),
                     ]),
                 Section::make('Détails DLT')
                     ->columns(2)

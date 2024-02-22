@@ -78,11 +78,13 @@ class RoomBookingResource extends Resource
                             ->label('Date'),
                         TimePicker::make('heure_debut')
                             ->required()
+                            ->seconds(false)
                             ->timezone('Europe/Brussels')
                             ->columnSpan(1)
                             ->label('Heure de début'),
                         TimePicker::make('heure_fin')
                             ->required()
+                            ->seconds(false)
                             ->timezone('Europe/Brussels')
                             ->columnSpan(1)
                             ->label('Heure de fin'),
@@ -100,16 +102,16 @@ class RoomBookingResource extends Resource
                             ->label('Salle du Cerf')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-user'),
+                        Toggle::make('salle4')
+                            ->label('Petite Salle')
+                            ->onIcon('heroicon-m-check')
+                            ->offIcon('heroicon-m-user'),
                         Toggle::make('salle2')
                             ->label('Salle du Lac')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-user'),
                         Toggle::make('salle3')
                             ->label('Salle Mazerin')
-                            ->onIcon('heroicon-m-check')
-                            ->offIcon('heroicon-m-user'),
-                        Toggle::make('salle4')
-                            ->label('Petite Salle')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-user'),
                     ]),

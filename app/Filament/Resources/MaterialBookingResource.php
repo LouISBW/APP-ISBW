@@ -8,10 +8,12 @@ use App\Models\MaterialBooking;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -77,6 +79,18 @@ class MaterialBookingResource extends Resource
                             ->timezone('Europe/Brussels')
                             ->columnSpan(1)
                             ->label('Date de retour'),
+                        TimePicker::make('heure_depart')
+                            ->required()
+                            ->seconds(false)
+                            ->timezone('Europe/Brussels')
+                            ->columnSpan(1)
+                            ->label('Heure de départ du matériel'),
+                        Radio::make('installation')
+                            ->label('Installation à faire au Mazerin')
+                            ->required()
+                            ->inline()
+                            ->inlineLabel(false)
+                            ->boolean(),
                     ]),
                 Section::make('Matériel demandé')
                     ->columns(4)
@@ -133,6 +147,7 @@ class MaterialBookingResource extends Resource
                     ->schema([
                         Textarea::make('remarques')
                             ->label('Remarques')
+                            ->placeholder("Veuillez préciser ici si besoin de matériel spécifique ou si la réservation est pour un autre service")
                             ->columnSpan(4),
                     ]),
             ]);
