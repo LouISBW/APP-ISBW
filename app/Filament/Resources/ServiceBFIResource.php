@@ -7,6 +7,7 @@ use App\Filament\Resources\ServiceBFIResource\RelationManagers;
 use App\Models\Dlt;
 use App\Models\NoteDeFrais;
 use App\Models\ServiceBFI;
+use App\Models\Statut;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
@@ -67,6 +68,10 @@ class ServiceBFIResource extends Resource
                             ->label('Demandeur')
                             ->disabled()
                             ->relationship('user','name')
+                            -> required(),
+                        Select::make('statut_id')
+                            ->label('Statut')
+                            ->options(Statut::whereIn('id', [2, 3,4])->pluck('name', 'id'))
                             -> required(),
 
                     ]),

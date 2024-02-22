@@ -23,7 +23,6 @@ class NoteDeFrais extends Model
     protected static function booted()
     {
         static::created(function ($record) {
-
             $service = $record->user->services->first();
             $ApproverId = $service->approver_id;
             $SecondApproverId = $service->second_approver_id;
@@ -34,6 +33,10 @@ class NoteDeFrais extends Model
             Mail::to($record->user->email)->send(new \App\Mail\NewNoteDeFraisMail($record));
             Mail::to($ApproverMail)->send(new \App\Mail\ApprovalNoteDeFraisMail($record));
             Mail::to($SecondApproverEmail)->send(new \App\Mail\SecondApprovalNoteDeFraisMail($record));
+        });
+        static::updated(function ($record) {
+
+            Mail::to($record->user->email)->send(new \App\Mail\UpdateNoteDeFraisMail($record));
         });
 
     }

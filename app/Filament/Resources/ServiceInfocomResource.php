@@ -10,10 +10,12 @@ use App\Models\Statut;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -65,7 +67,7 @@ class ServiceInfocomResource extends Resource
                             -> required(),
                         Select::make('statut_id')
                             ->label('Statut')
-                            ->options(Statut::whereIn('id', [2, 3, 7])->pluck('name', 'id'))
+                            ->options(Statut::whereIn('id', [2, 3])->pluck('name', 'id'))
                             -> required(),
                         Textarea::make('motif_refus')
                             ->label('Motif du refus')
@@ -82,6 +84,18 @@ class ServiceInfocomResource extends Resource
                             ->timezone('Europe/Brussels')
                             ->columnSpan(1)
                             ->label('Date de retour'),
+                        TimePicker::make('heure_depart')
+                            ->required()
+                            ->seconds(false)
+                            ->timezone('Europe/Brussels')
+                            ->columnSpan(1)
+                            ->label('Heure de départ du matériel'),
+                        Radio::make('installation')
+                            ->label('Installation à faire au Mazerin')
+                            ->required()
+                            ->inline()
+                            ->inlineLabel(false)
+                            ->boolean(),
                     ]),
                 Section::make('Matériel demandé')
                     ->columns(4)
