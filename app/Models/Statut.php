@@ -30,7 +30,10 @@ class Statut extends Model
     {
         return  $this->hasMany(Dlt::class);
     }
-
+    public function derogations(): hasMany
+    {
+        return  $this->hasMany(DerogationHoraire::class);
+    }
     public function roombooking() : HasMany
     {
         return $this->hasMany(RoomBooking::class, 'statut_id');

@@ -64,6 +64,10 @@ class User extends Authenticatable
     {
         return  $this->hasMany(Dlt::class);
     }
+    public function derogations(): hasMany
+    {
+        return  $this->hasMany(DerogationHoraire::class);
+    }
 
     public function notedefrais(): hasMany
     {

@@ -63,6 +63,7 @@ class DltResource extends Resource
 
                         TextInput::make('month')
                             ->label('Mois concerné')
+                            ->required()
                             ->type('month'),
                         TextInput::make('nbr_dlt')
                             ->required()
