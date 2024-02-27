@@ -18,6 +18,24 @@ class ApprobationDerogationHoraireResource extends Resource
     protected static ?string $model = ApprobationDerogationHoraire::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Approbations';
+    protected static ?string $navigationLabel = 'Approuver Dérogation Horaire';
+    protected static ?string $modelLabel = 'Approuver Dérogation Horaire';
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->can('Voir Approbation');
+    }
+
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return false;
+    }
 
     public static function form(Form $form): Form
     {

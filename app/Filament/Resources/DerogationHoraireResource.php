@@ -15,6 +15,7 @@ use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -28,6 +29,7 @@ class DerogationHoraireResource extends Resource
     protected static ?string $navigationGroup = 'Mes demandes';
     protected static ?string $navigationLabel = 'Dérogation horaire';
     protected static ?string $modelLabel = 'Dérogation horaire';
+    protected static ?int $navigationSort = 0;
 
     public static function getNavigationBadge(): ?string
     {
@@ -202,9 +204,25 @@ class DerogationHoraireResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $user = Auth::user();
+        $query = DerogationHoraire::where('user_id', $user->id);
         return $table
+            ->query($query)
             ->columns([
-                //
+                TextColumn::make('date_derogation')
+                    ->label('Semaine')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('statut.name')
+                    ->label('Statut')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Transmis au Pôle RH' => 'success',
+                        'Validation en attente' => 'warning',
+                        'Approuvé' => 'success',
+                        'Refusé' => 'danger',
+                        'Archivé' => 'info',
+                    })
             ])
             ->filters([
                 //
@@ -213,9 +231,7 @@ class DerogationHoraireResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+
             ]);
     }
 

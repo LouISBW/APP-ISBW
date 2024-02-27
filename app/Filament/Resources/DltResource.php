@@ -17,24 +17,27 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class DltResource extends Resource
 {
     protected static ?string $model = Dlt::class;
 
     protected static ?string $navigationGroup = 'Mes demandes';
-
+    protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Encodage DLT';
-
     protected static ?string $modelLabel = 'Encodage DLT';
-
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
     public static function getNavigationBadge(): ?string
     {
         return 'NEW';
     }
+
+
 
     public static function form(Form $form): Form
     {
@@ -56,6 +59,14 @@ class DltResource extends Resource
                             ->default(Auth::id()),
                         Hidden::make('statut_id')
                             ->default(6),
+                        TextInput::make('verifkey')
+                            ->label("Numéro d'enregistrement")
+                            ->disabled()
+                            ->required()
+                            ->unique()
+                            ->validationMessages([
+                               'unique' => "Vous avez déjà rentré des DLT pour cette période",
+                            ]),
                     ]),
                 Section::make('Détails DLT')
                     ->columns(2)
@@ -64,6 +75,17 @@ class DltResource extends Resource
                         TextInput::make('month')
                             ->label('Mois concerné')
                             ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set){
+                                  if ($operation !== 'create')  {
+                                      return;
+                                  }
+                                  $id = Auth::user()->id;
+                                  $month = Carbon::now()->format('Y/m');
+                                  $setup = $id.'-'.$month;
+                                  $set('verifkey', $setup);
+
+                            })
                             ->type('month'),
                         TextInput::make('nbr_dlt')
                             ->required()

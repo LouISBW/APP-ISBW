@@ -12,13 +12,13 @@ use Illuminate\Queue\SerializesModels;
 class NewDerogationMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $record;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($record)
     {
-        //
+        $this->record = $record;
     }
 
     /**
@@ -27,17 +27,23 @@ class NewDerogationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Derogation Mail',
+            subject: 'Confirmation réception demande dérogation',
         );
     }
-
+    public function build()
+    {
+        return $this->view('emails.NewDerogationMail')
+            ->with([
+                'record' => $this->record,
+            ]);
+    }
     /**
      * Get the message content definition.
      */
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.NewDerogationMail',
         );
     }
 

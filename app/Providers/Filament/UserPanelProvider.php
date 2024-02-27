@@ -2,9 +2,12 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\EditProfile;
+use Awcodes\FilamentGravatar\GravatarPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
@@ -28,13 +31,20 @@ class UserPanelProvider extends PanelProvider
             ->id('user')
             ->path('')
             ->login()
+            ->profile()
+            ->userMenuItems([
+                'profile' => MenuItem::make()->url(fn (): string => EditProfile::getUrl())
+
+            ])
             ->colors([
-                'primary' => Color::Amber,
-                'danger' => Color::Red,
+                'primary' => '#004494',
+                'danger' => '#e2001a',
                 'gray' => Color::Slate,
                 'info' => Color::Blue,
                 'warning' => Color::Orange,
             ])
+            ->font('Poppins')
+            ->favicon('images/isbwapp.ico')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -55,14 +65,18 @@ class UserPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->navigationGroups([
-                NavigationGroup::make()
-                    ->label('Paramètres')
-                    ->collapsed(true),
-                NavigationGroup::make()
-                    ->label('Rapports')
-                    ->collapsible(false),
+            ->plugins([
+                GravatarPlugin::make(),
             ])
+            ->navigationGroups([
+                'Mes demandes',
+                'Approbations',
+                'Salles',
+                'Pôle Budget et Finances',
+                'Pôle RH',
+                'Paramètres',
+            ])
+
             ->authMiddleware([
                 Authenticate::class,
             ]);

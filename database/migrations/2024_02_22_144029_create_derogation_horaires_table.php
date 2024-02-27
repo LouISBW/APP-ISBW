@@ -36,7 +36,7 @@ return new class extends Migration
             $table->time('p_de_vendredi')->nullable();
             $table->time('p_fin_vendredi')->nullable();
             $table->text('motif_refus')->nullable();
-            $table->foreignId('statut_id')->nullable()->default(7)->constrained('statuts');
+            $table->foreignId('statut_id')->nullable()->default(12)->constrained('statuts');
 
             $table->timestamps();
         });

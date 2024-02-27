@@ -19,6 +19,21 @@ class ServiceRhDerogationHoraireResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Validation Dérogation Horaire';
+
+    protected static ?string $modelLabel = 'Validation Dérogation Horaire';
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->can('Voir RH');
+    }
+    protected static ?string $navigationGroup = 'Pôle RH';
+
     public static function form(Form $form): Form
     {
         return $form

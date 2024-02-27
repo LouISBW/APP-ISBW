@@ -31,7 +31,7 @@ class RoomBookingResource extends Resource
     protected static ?string $model = RoomBooking::class;
 
     protected static ?string $navigationGroup = 'Mes demandes';
-
+    protected static ?int $navigationSort = 4;
     protected static ?string $navigationLabel = 'Réservation de salles';
 
     protected static ?string $modelLabel = 'Réservation de salles';
@@ -236,7 +236,10 @@ class RoomBookingResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                ]),
+
             ])
             ->bulkActions([
 

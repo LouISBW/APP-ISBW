@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TicketingResource\Pages;
 use App\Filament\Resources\TicketingResource\RelationManagers;
 use App\Models\Ticketing;
+use Filament\Actions\ActionGroup;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -27,7 +28,7 @@ class TicketingResource extends Resource
     protected static ?string $model = Ticketing::class;
 
     protected static ?string $navigationGroup = 'Mes demandes';
-
+    protected static ?int $navigationSort = 5;
     protected static ?string $navigationLabel = 'Support Technique';
 
     protected static ?string $modelLabel = 'Support Technique';
@@ -132,13 +133,18 @@ class TicketingResource extends Resource
                     ->color(fn (string $state): string => match ($state) {
                         'Transmis au service Infocom' => 'warning',
                         'En cours' => 'success',
+                        'Assigné' => 'primary'
+
                     })
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                ]),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

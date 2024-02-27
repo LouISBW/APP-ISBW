@@ -8,6 +8,7 @@ use App\Models\Ticketing;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 
 class CreateDlt extends CreateRecord
@@ -18,13 +19,19 @@ class CreateDlt extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
-    protected function mutateFormDataBeforeCreate(array $data): array
+    protected function beforeSave(): void
     {
-        $userId = Auth::id();
-        $month = $data['month'] ?? '';
+        $verifkey = $this->form->getState()['verifkey'] ?? null;
+        dd($verifkey);
+        if ($verifkey) {
+            $existingRecord = Dlt::where('verifkey', $verifkey)->first();
 
-        $data['verifkey'] = $userId . '-' . $month;
-
-        return $data;
+            if ($existingRecord) {
+                throw ValidationException::withMessages([
+                    'verifkey' => ['Un enregistrement avec cette clé de vérification existe déjà.'],
+                ]);
+            }
+        }
     }
+
 }

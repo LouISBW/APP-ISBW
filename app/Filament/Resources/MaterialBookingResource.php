@@ -31,7 +31,7 @@ class MaterialBookingResource extends Resource
     protected static ?string $model = MaterialBooking::class;
 
     protected static ?string $navigationGroup = 'Mes demandes';
-
+    protected static ?int $navigationSort = 3;
     protected static ?string $navigationLabel = 'Réservation matériel';
 
     protected static ?string $modelLabel = 'Réservation Matériel';

@@ -39,7 +39,7 @@ class ServiceRhResource extends Resource
     {
         return auth()->user()->can('Voir RH');
     }
-    protected static ?string $navigationGroup = 'Service Pôle RH';
+    protected static ?string $navigationGroup = 'Pôle RH';
 
     public static function getNavigationBadge(): ?string {
 

@@ -30,6 +30,7 @@ class NoteDeFraisResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
     protected static ?string $navigationGroup = 'Mes demandes';
+    protected static ?int $navigationSort = 2;
     protected static ?string $navigationLabel = 'Dépot Note de Frais';
     protected static ?string $modelLabel = 'Dépot Note de Frais';
 
