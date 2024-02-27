@@ -38,6 +38,10 @@ class NoteDeFraisResource extends Resource
     {
         return 'NEW';
     }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->can('Voir Formulaires');
+    }
     public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
     {
         return false;

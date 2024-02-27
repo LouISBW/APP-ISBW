@@ -41,6 +41,10 @@ class MaterialBookingResource extends Resource
     {
         return 'NEW';
     }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->can('Voir Formulaires');
+    }
 
     public static function form(Form $form): Form
     {

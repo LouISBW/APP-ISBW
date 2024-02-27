@@ -36,6 +36,10 @@ class TicketingResource extends Resource
     {
         return 'NEW';
     }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->can('Voir Formulaires');
+    }
 
     protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
 
