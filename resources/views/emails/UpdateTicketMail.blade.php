@@ -6,7 +6,7 @@
 <body>
 <p>Le statut de votre ticket est passé sur: <strong>{{ $booking->statut->name }}</strong></p>
 
-<p>Vous pouvez retrouver tous les détails du ticket en suivant ce lien : <a href="https://dev.isbw.be/ticketings/{{ $booking->id }}/view">Voir le Ticket</a></p>
+<p>Vous pouvez retrouver tous les détails du ticket en suivant ce lien : <a href="https://documents.isbw.be/ticketings/{{ $booking->id }}/view">Voir le Ticket</a></p>
 
 <p>bonne journée</p>
 <p>L'équipe <strong>Infocom</strong></p>

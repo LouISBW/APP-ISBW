@@ -16,10 +16,12 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -86,6 +88,11 @@ class ServiceTicketingResource extends Resource
                                 'Louis VanRenterghem' => 'Louis VanRenterghem'
                             ])
                             -> required(),
+                        Toggle::make('is_onsite')
+                            ->required()
+                            ->inline(false)
+                            ->label('En Télétravail')
+                            ->onColor('danger')
                     ]),
                 Section::make('Information Ticket')
                     ->columns(4)
@@ -131,9 +138,9 @@ class ServiceTicketingResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $query = Ticketing::whereIn('statut_id', [1, 7, 11]);
+
         return $table
-            ->query($query)
+
             ->columns([
                 TextColumn::make('date_creation')
                     ->label('Date de création')
@@ -151,14 +158,31 @@ class ServiceTicketingResource extends Resource
                 TextColumn::make('statut.name')
                     ->label('Statut')
                     ->badge()
+                    ->sortable()
                     ->color(fn (string $state): string => match ($state) {
                         'Transmis au service Infocom' => 'warning',
                         'En Cours' => 'success',
-                        'Assigné' => 'info'
-                    })
+                        'Assigné' => 'info',
+                        'Cloturé' => 'info',
+                    }),
+                TextColumn::make('assigned_to')
+                    ->label('Assigné à')
+                    ->color('info')
+                    ->sortable(),
             ])
             ->filters([
-                //
+                Filter::make('is_new')
+                    ->label('Nouveaux Tickets')
+                    ->toggle()
+                    ->query(fn (Builder $query): Builder => $query->where('statut_id', 7)),
+                Filter::make('in_progress')
+                    ->label('En cours')
+                    ->toggle()
+                    ->query(fn (Builder $query): Builder => $query->where('statut_id', 1)),
+                Filter::make('is_finished')
+                    ->label('Cloturé')
+                    ->toggle()
+                    ->query(fn (Builder $query): Builder => $query->where('statut_id', 9)),
             ])
             ->actions([
 

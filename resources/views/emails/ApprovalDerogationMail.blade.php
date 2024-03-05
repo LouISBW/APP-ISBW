@@ -11,7 +11,7 @@
     <li>Statut : <strong>{{ $record->statut->name }}</strong></li>
 </ul>
 
-<p>Vous trouverez tous les détails de sur notre plateforme <a href="https://dev.isbw.be/">Approbation</a></p>
+<p>Vous trouverez tous les détails de sur notre plateforme <a href="https://documents.isbw.be/">Approbation</a></p>
 <p>bonne journée</p>
 <p>L'équipe <strong><a href="mailto:rh@isbw.be">RH</a></strong></p>
 </body>

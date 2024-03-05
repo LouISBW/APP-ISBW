@@ -15,7 +15,7 @@
     <li>Statut : <strong>{{ $record->statut->name }}</strong></li>
 </ul>
 
-<p>Vous trouverez tous les détails de la note de frais sur notre plateforme <a href="https://dev.isbw.be/approbation-note-de-frais">Approbation</a></p>
+<p>Vous trouverez tous les détails de la note de frais sur notre plateforme <a href="https://documents.isbw.be/approbation-note-de-frais">Approbation</a></p>
 <p>bonne journée</p>
 <p>L'équipe <strong><a href="mailto:comptabilite@isbw.be">Pôle Budget et Finances</a></strong></p>
 </body>

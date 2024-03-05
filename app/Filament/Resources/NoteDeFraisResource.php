@@ -40,7 +40,7 @@ class NoteDeFraisResource extends Resource
     }
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->user()->can('Voir Formulaires');
+        return auth()->user()->can('Voir Phase 3');
     }
     public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
     {

@@ -14,6 +14,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -71,6 +72,11 @@ class TicketingResource extends Resource
                             ->timezone('Europe/Brussels')
                             ->columnSpan(1)
                             ->label('Date'),
+                        Toggle::make('is_onsite')
+                            ->required()
+                            ->inline(false)
+                            ->label('En Télétravail')
+                            ->onColor('danger')
                     ]),
                 Section::make('Information Ticket')
                     ->columns(4)

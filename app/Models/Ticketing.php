@@ -33,6 +33,7 @@ class Ticketing extends Model
         'assigned_to',
         'type_ticketing_id',
         'type_demande',
+        'is_onsite',
 
     ];
 

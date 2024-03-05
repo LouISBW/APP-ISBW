@@ -12,7 +12,7 @@
 
 </ul>
 
-<p>Vous pouvez retrouver tous les détails du ticket en suivant ce lien : <a href="https://dev.isbw.be/service-ticketings/{{ $record->id }}/edit">Voir le Ticket</a></p>
+<p>Vous pouvez retrouver tous les détails du ticket en suivant ce lien : <a href="https://documents.isbw.be/service-ticketings/{{ $record->id }}/edit">Voir le Ticket</a></p>
 
 <p>L'équipe <strong>Infocom</strong></p>
 </body>

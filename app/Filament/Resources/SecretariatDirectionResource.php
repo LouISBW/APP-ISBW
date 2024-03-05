@@ -64,7 +64,8 @@ class SecretariatDirectionResource extends Resource
                     ->schema([
                         Select::make('user_id')
                             ->label('Demandeur')
-                            ->disabled()
+                            ->disabledOn('edit')
+                            ->preload()
                             ->relationship('user','name')
                             -> required(),
                         Select::make('statut_id')

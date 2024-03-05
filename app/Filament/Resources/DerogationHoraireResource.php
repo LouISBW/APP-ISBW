@@ -38,7 +38,7 @@ class DerogationHoraireResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->user()->can('Voir Formulaires');
+        return auth()->user()->can('Voir Phase 2');
     }
 
 

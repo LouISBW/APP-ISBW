@@ -19,6 +19,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserResource extends Resource
 {
@@ -80,14 +81,19 @@ class UserResource extends Resource
                             ->multiple()
                             ->label('roles')
                             ->columnSpan(3)
-                            ->relationship('roles', 'name'),
+                            ->options(function () {
+                                return Role::where('id', '!=', 1)->pluck('name', 'id')->toArray();
+                            }),
                     ]),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $query = User::where('id', '!=', 1);
+
         return $table
+            ->query($query)
             ->columns([
                 TextColumn::make('name')
                     ->label('Nom')

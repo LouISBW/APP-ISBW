@@ -9,7 +9,7 @@
     <li>Date de la réservation : <strong>{{ $record->date_depart }}</strong></li>
 </ul>
 
-<p>Vous pouvez retrouver tous les détails de la réservation en suivant ce lien : <a href="https://dev.isbw.be/service-infocoms/{{ $record->id }}/edit">Réservation</a></p>
+<p>Vous pouvez retrouver tous les détails de la réservation en suivant ce lien : <a href="https://documents.isbw.be/service-infocoms/{{ $record->id }}/edit">Réservation</a></p>
 
 <p>bonne journée</p>
 <p>L'équipe <strong>Infocom</strong></p>

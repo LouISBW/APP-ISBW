@@ -30,7 +30,7 @@ class RoleResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->user()->can('Voir Paramètres');
+        return auth()->user()->hasRole('SuperAdmin');
     }
 
     public static function form(Form $form): Form
@@ -52,7 +52,9 @@ class RoleResource extends Resource
 
     public static function table(Table $table): Table
     {
+
         return $table
+
             ->columns([
                 TextColumn::make('name')
                     ->label('Rôle'),
