@@ -8,7 +8,6 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
-use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -33,7 +32,7 @@ class UserPanelProvider extends PanelProvider
             ->login()
             ->profile()
             ->userMenuItems([
-                'profile' => MenuItem::make()->url(fn (): string => EditProfile::getUrl())
+                'profile' => MenuItem::make()->url(fn (): string => EditProfile::getUrl()),
 
             ])
             ->colors([
@@ -85,8 +84,6 @@ class UserPanelProvider extends PanelProvider
     public function navigation(): array
     {
         return [
-
-
 
         ];
     }

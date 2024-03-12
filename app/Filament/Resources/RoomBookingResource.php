@@ -3,27 +3,20 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RoomBookingResource\Pages;
-use App\Filament\Resources\RoomBookingResource\RelationManagers;
-use App\Models\MaterialBooking;
 use App\Models\RoomBooking;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
-use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
 class RoomBookingResource extends Resource
@@ -31,22 +24,19 @@ class RoomBookingResource extends Resource
     protected static ?string $model = RoomBooking::class;
 
     protected static ?string $navigationGroup = 'Mes demandes';
+
     protected static ?int $navigationSort = 4;
+
     protected static ?string $navigationLabel = 'Réservation de salles';
 
     protected static ?string $modelLabel = 'Réservation de salles';
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
-    public static function getNavigationBadge(): ?string
-    {
-        return 'NEW';
-    }
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->can('Voir Formulaires');
     }
-
 
     public static function form(Form $form): Form
     {
@@ -118,6 +108,10 @@ class RoomBookingResource extends Resource
                             ->label('Salle Mazerin')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-user'),
+                        Toggle::make('salle5')
+                            ->label('Salle de conférence')
+                            ->onIcon('heroicon-m-check')
+                            ->offIcon('heroicon-m-user'),
                     ]),
                 Section::make('Demande de boissons/nourriture')
                     ->columns(4)
@@ -171,6 +165,7 @@ class RoomBookingResource extends Resource
     {
         $user = Auth::user();
         $query = RoomBooking::where('user_id', $user->id);
+
         return $table
             ->query($query)
             ->columns([
@@ -206,6 +201,10 @@ class RoomBookingResource extends Resource
                     ->boolean()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Petite Salle'),
+                IconColumn::make('salle5')
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('Salle de conférence'),
                 IconColumn::make('drink1')
                     ->boolean()
                     ->label('Eau Plate'),
@@ -234,7 +233,6 @@ class RoomBookingResource extends Resource
                     })
                     ->sortable(),
 
-
             ])
             ->filters([
                 //
@@ -246,7 +244,6 @@ class RoomBookingResource extends Resource
 
             ])
             ->bulkActions([
-
 
             ]);
     }

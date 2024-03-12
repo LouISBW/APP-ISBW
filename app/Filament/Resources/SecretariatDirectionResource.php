@@ -3,13 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SecretariatDirectionResource\Pages;
-use App\Filament\Resources\SecretariatDirectionResource\RelationManagers;
 use App\Models\RoomBooking;
-use App\Models\SecretariatDirection;
 use App\Models\Statut;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -19,13 +15,8 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
-use function Laravel\Prompts\select;
 
 class SecretariatDirectionResource extends Resource
 {
@@ -43,14 +34,16 @@ class SecretariatDirectionResource extends Resource
     {
         return auth()->user()->can('Voir secretariat direction');
     }
-    public static function getNavigationBadge(): ?string {
 
-        return static::getModel()::where('statut_id', '=','8')->count();
+    public static function getNavigationBadge(): ?string
+    {
+
+        return static::getModel()::where('statut_id', '=', '8')->count();
     }
 
     public static function getNavigationBadgeColor(): ?string
     {
-        return static::getModel()::where('statut_id', '=','8')->count() > 4
+        return static::getModel()::where('statut_id', '=', '8')->count() > 4
             ? 'warning'
             : 'success';
     }
@@ -66,12 +59,12 @@ class SecretariatDirectionResource extends Resource
                             ->label('Demandeur')
                             ->disabledOn('edit')
                             ->preload()
-                            ->relationship('user','name')
-                            -> required(),
+                            ->relationship('user', 'name')
+                            ->required(),
                         Select::make('statut_id')
                             ->label('Statut')
                             ->options(Statut::whereIn('id', [2, 3, 8])->pluck('name', 'id'))
-                            -> required(),
+                            ->required(),
                         Textarea::make('motif_refus')
                             ->label('Motif du refus')
                             ->columnStart(1)
@@ -117,6 +110,10 @@ class SecretariatDirectionResource extends Resource
                             ->offIcon('heroicon-m-user'),
                         Toggle::make('salle4')
                             ->label('Petite Salle')
+                            ->onIcon('heroicon-m-check')
+                            ->offIcon('heroicon-m-user'),
+                        Toggle::make('salle5')
+                            ->label('Salle de conférence')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-user'),
                     ]),
@@ -169,9 +166,10 @@ class SecretariatDirectionResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $query = RoomBooking::where('statut_id', 8);
+
         return $table
-            ->query($query)
+            ->defaultSort('created_at', 'desc')
+
             ->columns([
                 TextColumn::make('user.name')
                     ->label('Demandeur')

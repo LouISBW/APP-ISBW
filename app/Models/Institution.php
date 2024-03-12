@@ -21,5 +21,7 @@ class Institution extends Model
         'agrement',
         'revisionGeneralBaremes',
         'amenagementFinCarriere',
+        'numBancaireIBAN',
+        'numBancaireBIC',
     ];
 }

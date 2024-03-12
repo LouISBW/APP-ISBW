@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -12,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class ApprovalDerogationMail extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $record;
 
     /**
@@ -31,6 +31,7 @@ class ApprovalDerogationMail extends Mailable
             subject: "Demande d'approbation dérogation horaire",
         );
     }
+
     public function build()
     {
         return $this->view('emails.ApprovalDerogationMail')
@@ -38,6 +39,7 @@ class ApprovalDerogationMail extends Mailable
                 'record' => $this->record,
             ]);
     }
+
     /**
      * Get the message content definition.
      */

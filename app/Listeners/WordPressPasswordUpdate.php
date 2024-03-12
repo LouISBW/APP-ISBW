@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Listeners;
 
 use App\Models\User;
-use MikeMcLin\WpPassword\Facades\WpPassword;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Support\Facades\Hash;
+use MikeMcLin\WpPassword\Facades\WpPassword;
 
 class WordPressPasswordUpdate
 {
@@ -15,12 +16,10 @@ class WordPressPasswordUpdate
 
     public function check($value, $hashedValue, array $options = [])
     {
-        if (Hash::needsRehash($hashedValue))
-        {
-            if (WpPassword::check($value, $hashedValue))
-            {
+        if (Hash::needsRehash($hashedValue)) {
+            if (WpPassword::check($value, $hashedValue)) {
                 $newHashedValue = (new \Illuminate\Hashing\BcryptHasher)->make($value, $options);
-                \Illuminate\Support\Facades\DB::update('UPDATE users SET `password` = "' . $newHashedValue . '" WHERE `password` = "' . $hashedValue . '"');
+                \Illuminate\Support\Facades\DB::update('UPDATE users SET `password` = "'.$newHashedValue.'" WHERE `password` = "'.$hashedValue.'"');
                 $hashedValue = $newHashedValue;
             }
         }

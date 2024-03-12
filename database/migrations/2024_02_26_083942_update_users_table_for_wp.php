@@ -29,7 +29,7 @@ return new class extends Migration
                         ],
                         [
                             'name' => $wp_user->display_name,
-                            'password' => Hash::make('123456')
+                            'password' => Hash::make('123456'),
                         ]
                     );
                 }

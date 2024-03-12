@@ -14,11 +14,10 @@ class Statut extends Model
         'name',
     ];
 
-    public function materials() : hasMany
+    public function materials(): hasMany
     {
         return $this->hasMany(MaterialBooking::class, 'statut_id');
     }
-
 
     public function ticketings(): hasMany
     {
@@ -28,19 +27,21 @@ class Statut extends Model
 
     public function dlt(): hasMany
     {
-        return  $this->hasMany(Dlt::class);
+        return $this->hasMany(Dlt::class);
     }
+
     public function derogations(): hasMany
     {
-        return  $this->hasMany(DerogationHoraire::class);
+        return $this->hasMany(DerogationHoraire::class);
     }
-    public function roombooking() : HasMany
+
+    public function roombooking(): HasMany
     {
         return $this->hasMany(RoomBooking::class, 'statut_id');
     }
 
     public function notedefrais(): hasMany
     {
-        return  $this->hasMany(NoteDeFrais::class);
+        return $this->hasMany(NoteDeFrais::class);
     }
 }

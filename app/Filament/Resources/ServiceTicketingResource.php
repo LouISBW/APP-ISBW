@@ -3,15 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ServiceTicketingResource\Pages;
-use App\Filament\Resources\ServiceTicketingResource\RelationManagers;
-use App\Models\ServiceTicketing;
 use App\Models\Statut;
 use App\Models\Ticketing;
-use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -24,8 +19,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
 
 class ServiceTicketingResource extends Resource
 {
@@ -41,15 +34,18 @@ class ServiceTicketingResource extends Resource
     {
         return auth()->user()->can('Voir Ticket');
     }
+
     protected static ?string $navigationGroup = 'Service Infocom';
 
-    public static function getNavigationBadge(): ?string {
+    public static function getNavigationBadge(): ?string
+    {
 
-        return static::getModel()::where('statut_id', '=','7')->count();
+        return static::getModel()::where('statut_id', '=', '7')->count();
     }
+
     public static function getNavigationBadgeColor(): ?string
     {
-        return static::getModel()::where('statut_id', '=','7')->count() > 5
+        return static::getModel()::where('statut_id', '=', '7')->count() > 5
             ? 'warning'
             : 'success';
     }
@@ -64,13 +60,12 @@ class ServiceTicketingResource extends Resource
                     ->schema([
                         Select::make('user_id')
                             ->label('Demandeur')
-                            ->disabled()
-                            ->relationship('user','name')
-                            -> required(),
+                            ->relationship('user', 'name')
+                            ->required(),
                         Select::make('statut_id')
                             ->label('Statut')
-                            ->options(Statut::whereIn('id', [1, 7, 9,11])->pluck('name', 'id'))
-                            -> required(),
+                            ->options(Statut::whereIn('id', [1, 7, 9, 11])->pluck('name', 'id'))
+                            ->required(),
                         DatePicker::make('date_creation')
                             ->required()
                             ->date()
@@ -85,14 +80,14 @@ class ServiceTicketingResource extends Resource
                             ->options([
                                 'Pierre Lucas' => 'Pierre Lucas',
                                 'Sébastien Farese' => 'Sébastien Farese',
-                                'Louis VanRenterghem' => 'Louis VanRenterghem'
+                                'Louis VanRenterghem' => 'Louis VanRenterghem',
                             ])
-                            -> required(),
+                            ->required(),
                         Toggle::make('is_onsite')
                             ->required()
                             ->inline(false)
                             ->label('En Télétravail')
-                            ->onColor('danger')
+                            ->onColor('danger'),
                     ]),
                 Section::make('Information Ticket')
                     ->columns(4)
@@ -111,7 +106,7 @@ class ServiceTicketingResource extends Resource
                         Select::make('type_ticketing_id')
                             ->label('Sévérité')
                             ->required()
-                            ->relationship('type_ticketing','name'),
+                            ->relationship('type_ticketing', 'name'),
                         TextInput::make('subject')
                             ->label('Sujet de la demande')
                             ->visibleOn('create')
@@ -123,14 +118,12 @@ class ServiceTicketingResource extends Resource
                             ->columnSpan(4)
                             ->rows(10)
                             ->columnStart(1)
-                            ->placeholder("Veuillez décrire avec précision votre problème afin que nos équipes puissent vous aider au plus vite")
+                            ->placeholder('Veuillez décrire avec précision votre problème afin que nos équipes puissent vous aider au plus vite')
                             ->required(),
                         FileUpload::make('attachment')
                             ->label('Pièce jointe')
                             ->columnStart(1)
-                            ->columnSpan(4)
-
-
+                            ->columnSpan(4),
 
                     ]),
             ]);
@@ -140,7 +133,7 @@ class ServiceTicketingResource extends Resource
     {
 
         return $table
-
+            ->defaultSort('date_creation', 'desc')
             ->columns([
                 TextColumn::make('date_creation')
                     ->label('Date de création')

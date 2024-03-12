@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Mail\NewRoomBookingMail;
-use App\Mail\UpdateRoomBookingMail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,17 +42,19 @@ class MaterialBooking extends Model
         'statut_id',
         'heure_depart',
         'installation',
+        'autre',
+        'etat_retour',
+        'remarques',
+        'heure_retour'
     ];
 
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function statut() : BelongsTo
+    public function statut(): BelongsTo
     {
         return $this->belongsTo(Statut::class);
     }
-
-
 }

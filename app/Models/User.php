@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -57,25 +56,27 @@ class User extends Authenticatable implements HasAvatar
         return $this->belongsToMany(Department::class);
     }
 
-    public function materials() : HasMany
+    public function materials(): HasMany
     {
         return $this->hasMany(MaterialBooking::class);
     }
+
     public function dlt(): hasMany
     {
-        return  $this->hasMany(Dlt::class);
+        return $this->hasMany(Dlt::class);
     }
+
     public function derogations(): hasMany
     {
-        return  $this->hasMany(DerogationHoraire::class);
+        return $this->hasMany(DerogationHoraire::class);
     }
 
     public function notedefrais(): hasMany
     {
-        return  $this->hasMany(NoteDeFrais::class);
+        return $this->hasMany(NoteDeFrais::class);
     }
 
-    public function ticketings() : HasMany
+    public function ticketings(): HasMany
     {
         return $this->hasMany(Ticketing::class);
     }

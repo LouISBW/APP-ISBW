@@ -33,6 +33,7 @@ class Service extends Model
     {
         return $this->belongsTo(User::class, 'approver_id');
     }
+
     public function second_approver()
     {
         return $this->belongsTo(User::class, 'second_approver_id');

@@ -21,6 +21,7 @@ class EditRole extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
     protected function getSavedNotificationTitle(): string
     {
         return 'Rôle mis à jour';

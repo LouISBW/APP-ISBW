@@ -21,5 +21,4 @@ class EditInstitution extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
-
 }

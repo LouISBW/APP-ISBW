@@ -3,10 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DepartmentResource\Pages;
-use App\Filament\Resources\DepartmentResource\RelationManagers;
 use App\Filament\Resources\DepartmentResource\RelationManagers\ServicesRelationManager;
 use App\Models\Department;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -15,8 +13,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DepartmentResource extends Resource
 {
@@ -27,8 +23,11 @@ class DepartmentResource extends Resource
     protected static ?string $navigationLabel = 'Départements';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-clipboard';
+
     protected static ?string $navigationGroup = 'Paramètres';
+
     protected static ?int $navigationSort = 4;
 
     public static function shouldRegisterNavigation(): bool
@@ -87,7 +86,7 @@ class DepartmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ServicesRelationManager::class
+            ServicesRelationManager::class,
         ];
     }
 

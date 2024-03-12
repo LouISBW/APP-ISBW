@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\TicketingResource\Pages;
 
 use App\Filament\Resources\TicketingResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateTicketing extends CreateRecord
@@ -14,5 +13,4 @@ class CreateTicketing extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
-
 }

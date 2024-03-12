@@ -3,12 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ApprobationNoteDeFraisResource\Pages;
-use App\Filament\Resources\ApprobationNoteDeFraisResource\RelationManagers;
-use App\Models\ApprobationNoteDeFrais;
 use App\Models\NoteDeFrais;
-use App\Models\Service;
 use App\Models\Statut;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -19,8 +15,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -29,19 +23,22 @@ class ApprobationNoteDeFraisResource extends Resource
     protected static ?string $model = NoteDeFrais::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+
     protected static ?string $navigationGroup = 'Approbations';
+
     protected static ?string $navigationLabel = 'Approuver Note de Frais';
+
     protected static ?string $modelLabel = 'Approuver Note de Frais';
 
     public static function canCreate(): bool
     {
         return false;
     }
+
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->can('Voir Approbation');
     }
-
 
     public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
     {
@@ -58,12 +55,12 @@ class ApprobationNoteDeFraisResource extends Resource
                         Select::make('user_id')
                             ->label('Demandeur')
                             ->disabled()
-                            ->relationship('user','name')
-                            -> required(),
+                            ->relationship('user', 'name')
+                            ->required(),
                         Select::make('statut_id')
                             ->label('Statut')
                             ->options(Statut::whereIn('id', [3, 4])->pluck('name', 'id'))
-                            -> required(),
+                            ->required(),
                         Textarea::make('motif_refus')
                             ->columnStart(1)
                             ->columnSpan(4)
@@ -104,11 +101,10 @@ class ApprobationNoteDeFraisResource extends Resource
 
         $userIds = DB::table('service_user')->whereIn('service_id', $serviceIds)->pluck('user_id');
 
-
         $query = NoteDeFrais::whereIn('user_id', $userIds)->where('statut_id', 12);
 
-
         return $table
+            ->defaultSort('created_at', 'desc')
             ->query($query)
             ->columns([
                 TextColumn::make('month')

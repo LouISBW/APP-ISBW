@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Mail\NewRoomBookingMail;
 use App\Mail\UpdateRoomBookingMail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +20,7 @@ class RoomBooking extends Model
         'salle2',
         'salle3',
         'salle4',
+        'salle5',
         'drink1',
         'drink2',
         'drink3',
@@ -38,7 +38,7 @@ class RoomBooking extends Model
     protected static function booted()
     {
         static::created(function ($record) {
-            Mail::to('sebastien.farese@isbw.be')->send(new \App\Mail\NewRoomBookingMail($record));
+            Mail::to('info@isbw.be')->send(new \App\Mail\NewRoomBookingMail($record));
         });
 
         static::updated(function ($booking) {
@@ -46,6 +46,7 @@ class RoomBooking extends Model
             Mail::to($booking->user->email)->send(new UpdateRoomBookingMail($booking));
         });
     }
+
     protected $casts = [
         'salle1' => 'boolean',
         'salle2' => 'boolean',
@@ -62,6 +63,7 @@ class RoomBooking extends Model
         'heure_debut' => 'datetime',
         'heure_fin' => 'datetime',
     ];
+
     public function user()
     {
         return $this->belongsTo('App\Models\user');

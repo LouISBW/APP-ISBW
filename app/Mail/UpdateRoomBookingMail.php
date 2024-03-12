@@ -14,7 +14,6 @@ class UpdateRoomBookingMail extends Mailable
 
     public $booking;
 
-
     /**
      * Create a new message instance.
      */
@@ -23,6 +22,7 @@ class UpdateRoomBookingMail extends Mailable
         $this->booking = $booking;
 
     }
+
     /**
      * Get the message envelope.
      */

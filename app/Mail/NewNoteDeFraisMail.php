@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -12,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class NewNoteDeFraisMail extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $record;
 
     /**
@@ -31,6 +31,7 @@ class NewNoteDeFraisMail extends Mailable
             subject: 'Confirmation réception NF',
         );
     }
+
     public function build()
     {
         return $this->view('emails.NewNoteDeFraisMail')
@@ -38,7 +39,6 @@ class NewNoteDeFraisMail extends Mailable
                 'record' => $this->record,
             ]);
     }
-
 
     /**
      * Get the message content definition.

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 class Ticketing extends Model
 {
     use HasFactory;
+
     protected static function booted()
     {
         static::created(function ($record) {
@@ -21,6 +22,7 @@ class Ticketing extends Model
             Mail::to($booking->user->email)->send(new \App\Mail\UpdateTicketMail($booking));
         });
     }
+
     protected $fillable = [
         'user_id',
         'date_creation',
@@ -37,17 +39,17 @@ class Ticketing extends Model
 
     ];
 
-    public function statut() : BelongsTo
+    public function statut(): BelongsTo
     {
         return $this->belongsTo(Statut::class);
     }
 
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function type_ticketing() : BelongsTo
+    public function type_ticketing(): BelongsTo
     {
         return $this->belongsTo(TypeTicketing::class, 'type_ticketing_id');
     }

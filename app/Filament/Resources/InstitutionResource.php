@@ -3,10 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\InstitutionResource\Pages;
-use App\Filament\Resources\InstitutionResource\RelationManagers;
 use App\Models\Institution;
-use Filament\Forms;
-use Filament\Forms\Components\BelongsToManyMultiSelect;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -15,9 +12,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Hash;
 
 class InstitutionResource extends Resource
 {
@@ -37,8 +31,6 @@ class InstitutionResource extends Resource
     {
         return auth()->user()->can('Voir Institution');
     }
-
-
 
     public static function form(Form $form): Form
     {
@@ -60,7 +52,7 @@ class InstitutionResource extends Resource
                             ->columnSpan(2)
                             ->required(),
                     ]),
-                Section::make("Adresse")
+                Section::make('Adresse')
                     ->columns(4)
                     ->schema([
                         TextInput::make('rue')
@@ -90,7 +82,7 @@ class InstitutionResource extends Resource
                             ->columnSpan(3)
                             ->required(),
                     ]),
-                Section::make("Information service")
+                Section::make('Information service')
                     ->columns(4)
                     ->schema([
                         TextInput::make('service')

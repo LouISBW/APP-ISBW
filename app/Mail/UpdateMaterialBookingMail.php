@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -15,7 +14,6 @@ class UpdateMaterialBookingMail extends Mailable
 
     public $booking;
 
-
     /**
      * Create a new message instance.
      */
@@ -24,6 +22,7 @@ class UpdateMaterialBookingMail extends Mailable
         $this->booking = $booking;
 
     }
+
     /**
      * Get the message envelope.
      */

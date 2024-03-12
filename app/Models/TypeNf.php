@@ -17,6 +17,6 @@ class TypeNf extends Model
 
     public function notedefrais(): hasMany
     {
-        return  $this->hasMany(NoteDeFrais::class);
+        return $this->hasMany(NoteDeFrais::class);
     }
 }

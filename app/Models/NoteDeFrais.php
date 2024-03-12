@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 class NoteDeFrais extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'month',
         'montant',
@@ -41,19 +42,18 @@ class NoteDeFrais extends Model
 
     }
 
-    public function statut() : BelongsTo
+    public function statut(): BelongsTo
     {
         return $this->belongsTo(Statut::class);
     }
 
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function type_nfs() : BelongsTo
+    public function type_nfs(): BelongsTo
     {
         return $this->belongsTo(TypeNf::class);
     }
-
 }

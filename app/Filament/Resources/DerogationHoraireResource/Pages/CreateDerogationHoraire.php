@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\DerogationHoraireResource\Pages;
 
 use App\Filament\Resources\DerogationHoraireResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateDerogationHoraire extends CreateRecord

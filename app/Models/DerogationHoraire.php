@@ -57,6 +57,7 @@ class DerogationHoraire extends Model
             Mail::to($ApproverMail)->send(new \App\Mail\ApprovalDerogationMail($record));
             Mail::to($SecondApproverEmail)->send(new \App\Mail\SecondApprovalDerogationMail($record));
         });
+
         static::updated(function ($record) {
 
             Mail::to($record->user->email)->send(new \App\Mail\UpdateDerogationMail($record));
@@ -64,11 +65,12 @@ class DerogationHoraire extends Model
 
     }
 
-    public function statut() : BelongsTo
+    public function statut(): BelongsTo
     {
         return $this->belongsTo(Statut::class);
     }
-    public function user() : BelongsTo
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

@@ -3,12 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ServiceBFIResource\Pages;
-use App\Filament\Resources\ServiceBFIResource\RelationManagers;
-use App\Models\Dlt;
 use App\Models\NoteDeFrais;
-use App\Models\ServiceBFI;
 use App\Models\Statut;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -20,8 +16,6 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
@@ -30,28 +24,36 @@ class ServiceBFIResource extends Resource
     protected static ?string $model = NoteDeFrais::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+
     protected static ?string $navigationGroup = 'Pôle Budget et Finances ';
+
     protected static ?string $navigationLabel = 'Validation Note de Frais';
+
     protected static ?string $modelLabel = 'Validation Note de Frais';
 
     public static function canCreate(): bool
     {
         return false;
     }
+
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->can('Voir BFI');
     }
-   public static function getNavigationBadge(): ?string {
 
-        return static::getModel()::where('statut_id', '=','4')->count();
+    public static function getNavigationBadge(): ?string
+    {
+
+        return static::getModel()::where('statut_id', '=', '4')->count();
     }
+
     public static function getNavigationBadgeColor(): ?string
     {
-        return static::getModel()::where('statut_id', '=','4')->count() < 0
+        return static::getModel()::where('statut_id', '=', '4')->count() < 0
             ? 'warning'
             : 'success';
     }
+
     public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
     {
         return false;
@@ -67,12 +69,12 @@ class ServiceBFIResource extends Resource
                         Select::make('user_id')
                             ->label('Demandeur')
                             ->disabled()
-                            ->relationship('user','name')
-                            -> required(),
+                            ->relationship('user', 'name')
+                            ->required(),
                         Select::make('statut_id')
                             ->label('Statut')
-                            ->options(Statut::whereIn('id', [2, 3,4])->pluck('name', 'id'))
-                            -> required(),
+                            ->options(Statut::whereIn('id', [2, 3, 4])->pluck('name', 'id'))
+                            ->required(),
 
                     ]),
                 Section::make('Détail Note de Frais')
@@ -104,7 +106,9 @@ class ServiceBFIResource extends Resource
     public static function table(Table $table): Table
     {
         $query = NoteDeFrais::where('statut_id', 4);
+
         return $table
+            ->defaultSort('created_at', 'desc')
             ->query($query)
             ->columns([
                 TextColumn::make('month')

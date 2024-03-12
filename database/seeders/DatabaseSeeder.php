@@ -21,10 +21,10 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo($permission);
         $permission->assignRole($role);
 
-        $user= User::factory()->create([
-                     'name' => 'Super Admin',
-                     'email' => 'admin@isbw.be',
-                 ]);
+        $user = User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'admin@isbw.be',
+        ]);
 
         $user->assignRole($role);
         User::factory(10)->create();

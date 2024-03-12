@@ -3,10 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TicketingResource\Pages;
-use App\Filament\Resources\TicketingResource\RelationManagers;
 use App\Models\Ticketing;
-use Filament\Actions\ActionGroup;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
@@ -20,8 +17,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
 class TicketingResource extends Resource
@@ -29,14 +24,13 @@ class TicketingResource extends Resource
     protected static ?string $model = Ticketing::class;
 
     protected static ?string $navigationGroup = 'Mes demandes';
+
     protected static ?int $navigationSort = 5;
+
     protected static ?string $navigationLabel = 'Support Technique';
 
     protected static ?string $modelLabel = 'Support Technique';
-    public static function getNavigationBadge(): ?string
-    {
-        return 'NEW';
-    }
+
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->can('Voir Formulaires');
@@ -47,6 +41,7 @@ class TicketingResource extends Resource
     public static function form(Form $form): Form
     {
         $user = Auth::user();
+
         return $form
             ->schema([
                 Section::make('Information utilisateur')
@@ -76,7 +71,7 @@ class TicketingResource extends Resource
                             ->required()
                             ->inline(false)
                             ->label('En Télétravail')
-                            ->onColor('danger')
+                            ->onColor('danger'),
                     ]),
                 Section::make('Information Ticket')
                     ->columns(4)
@@ -95,7 +90,7 @@ class TicketingResource extends Resource
                         Select::make('type_ticketing_id')
                             ->label('Sévérité')
                             ->required()
-                            ->relationship('type_ticketing','name'),
+                            ->relationship('type_ticketing', 'name'),
                         TextInput::make('subject')
                             ->label('Sujet de la demande')
                             ->visibleOn('create')
@@ -107,14 +102,12 @@ class TicketingResource extends Resource
                             ->columnSpan(4)
                             ->rows(10)
                             ->columnStart(1)
-                            ->placeholder("Veuillez décrire avec précision votre problème afin que nos équipes puissent vous aider au plus vite")
+                            ->placeholder('Veuillez décrire avec précision votre problème afin que nos équipes puissent vous aider au plus vite')
                             ->required(),
                         FileUpload::make('attachment')
                             ->label('Pièce jointe')
                             ->columnStart(1)
-                            ->columnSpan(4)
-
-
+                            ->columnSpan(4),
 
                     ]),
             ]);
@@ -124,8 +117,10 @@ class TicketingResource extends Resource
     {
         $user = Auth::user();
         $query = Ticketing::where('user_id', $user->id);
+
         return $table
             ->query($query)
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('date_creation')
                     ->label('Date de création')
@@ -142,10 +137,11 @@ class TicketingResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Transmis au service Infocom' => 'warning',
-                        'En cours' => 'success',
-                        'Assigné' => 'primary'
+                        'En Cours' => 'success',
+                        'Assigné' => 'info',
+                        'Cloturé' => 'info',
 
-                    })
+                    }),
             ])
             ->filters([
                 //

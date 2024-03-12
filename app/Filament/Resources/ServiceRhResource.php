@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ServiceRhResource\Pages;
-use App\Filament\Resources\ServiceRhResource\RelationManagers;
 use App\Models\Dlt;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -15,10 +13,8 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
-
 
 class ServiceRhResource extends Resource
 {
@@ -39,15 +35,18 @@ class ServiceRhResource extends Resource
     {
         return auth()->user()->can('Voir RH');
     }
+
     protected static ?string $navigationGroup = 'Pôle RH';
 
-    public static function getNavigationBadge(): ?string {
+    public static function getNavigationBadge(): ?string
+    {
 
-        return static::getModel()::where('statut_id', '=','6')->count();
+        return static::getModel()::where('statut_id', '=', '6')->count();
     }
+
     public static function getNavigationBadgeColor(): ?string
     {
-        return static::getModel()::where('statut_id', '=','6')->count() < 0
+        return static::getModel()::where('statut_id', '=', '6')->count() < 0
             ? 'warning'
             : 'success';
     }
@@ -62,8 +61,8 @@ class ServiceRhResource extends Resource
                         Select::make('user_id')
                             ->label('Demandeur')
                             ->disabled()
-                            ->relationship('user','name')
-                            -> required(),
+                            ->relationship('user', 'name')
+                            ->required(),
 
                     ]),
                 Section::make('Détails DLT')
@@ -87,7 +86,9 @@ class ServiceRhResource extends Resource
     {
 
         $query = Dlt::where('statut_id', 6);
+
         return $table
+            ->defaultSort('created_at', 'desc')
             ->query($query)
             ->columns([
                 TextColumn::make('month')
@@ -104,7 +105,7 @@ class ServiceRhResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Transmis au Pôle RH' => 'success',
-                    })
+                    }),
             ])
             ->filters([
                 //

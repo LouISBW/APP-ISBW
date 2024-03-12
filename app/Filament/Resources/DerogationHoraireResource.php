@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DerogationHoraireResource\Pages;
-use App\Filament\Resources\DerogationHoraireResource\RelationManagers;
 use App\Models\DerogationHoraire;
-use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
@@ -17,8 +15,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
 class DerogationHoraireResource extends Resource
@@ -26,9 +22,13 @@ class DerogationHoraireResource extends Resource
     protected static ?string $model = DerogationHoraire::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
+
     protected static ?string $navigationGroup = 'Mes demandes';
+
     protected static ?string $navigationLabel = 'Dérogation horaire';
+
     protected static ?string $modelLabel = 'Dérogation horaire';
+
     protected static ?int $navigationSort = 0;
 
     public static function getNavigationBadge(): ?string
@@ -38,13 +38,13 @@ class DerogationHoraireResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->user()->can('Voir Phase 2');
+        return auth()->user()->can('Voir Formulaires');
     }
-
 
     public static function form(Form $form): Form
     {
         $user = Auth::user();
+
         return $form
             ->schema([
                 Section::make('Information utilisateur')
@@ -211,6 +211,7 @@ class DerogationHoraireResource extends Resource
     {
         $user = Auth::user();
         $query = DerogationHoraire::where('user_id', $user->id);
+
         return $table
             ->query($query)
             ->columns([
@@ -227,7 +228,7 @@ class DerogationHoraireResource extends Resource
                         'Approuvé' => 'success',
                         'Refusé' => 'danger',
                         'Archivé' => 'info',
-                    })
+                    }),
             ])
             ->filters([
                 //

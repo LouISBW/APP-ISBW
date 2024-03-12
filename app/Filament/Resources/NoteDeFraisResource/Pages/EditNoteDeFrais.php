@@ -21,6 +21,4 @@ class EditNoteDeFrais extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
-
-
 }

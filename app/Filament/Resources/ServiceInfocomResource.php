@@ -3,18 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ServiceInfocomResource\Pages;
-use App\Filament\Resources\ServiceInfocomResource\RelationManagers;
 use App\Models\MaterialBooking;
-use App\Models\ServiceInfocom;
 use App\Models\Statut;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -22,9 +17,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
 
 class ServiceInfocomResource extends Resource
 {
@@ -42,13 +34,16 @@ class ServiceInfocomResource extends Resource
     {
         return auth()->user()->can('Voir Infocom');
     }
-    public static function getNavigationBadge(): ?string {
 
-        return static::getModel()::where('statut_id', '=','7')->count();
+    public static function getNavigationBadge(): ?string
+    {
+
+        return static::getModel()::where('statut_id', '=', '7')->count();
     }
+
     public static function getNavigationBadgeColor(): ?string
     {
-        return static::getModel()::where('statut_id', '=','7')->count() > 5
+        return static::getModel()::where('statut_id', '=', '7')->count() > 5
             ? 'warning'
             : 'success';
     }
@@ -63,12 +58,12 @@ class ServiceInfocomResource extends Resource
                         Select::make('user_id')
                             ->label('Demandeur')
                             ->disabled()
-                            ->relationship('user','name')
-                            -> required(),
+                            ->relationship('user', 'name')
+                            ->required(),
                         Select::make('statut_id')
                             ->label('Statut')
                             ->options(Statut::whereIn('id', [2, 3])->pluck('name', 'id'))
-                            -> required(),
+                            ->required(),
                         Textarea::make('motif_refus')
                             ->label('Motif du refus')
                             ->columnStart(1)
@@ -159,9 +154,9 @@ class ServiceInfocomResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $query = MaterialBooking::where('statut_id', 7);
+
         return $table
-            ->query($query)
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('user.name')
                     ->label('Demandeur')
@@ -181,7 +176,7 @@ class ServiceInfocomResource extends Resource
                         'Transmis au service Infocom' => 'warning',
                         'Approuvé' => 'success',
                         'Refusé' => 'danger',
-                    })
+                    }),
             ])
             ->filters([
                 //

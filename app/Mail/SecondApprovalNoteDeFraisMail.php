@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -12,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class SecondApprovalNoteDeFraisMail extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $record;
 
     /**
@@ -31,6 +31,7 @@ class SecondApprovalNoteDeFraisMail extends Mailable
             subject: "Demande d'approbation Note de Frais",
         );
     }
+
     public function build()
     {
         return $this->view('emails.ApprovalNoteDeFraisMail')
@@ -38,6 +39,7 @@ class SecondApprovalNoteDeFraisMail extends Mailable
                 'record' => $this->record,
             ]);
     }
+
     /**
      * Get the message content definition.
      */
@@ -47,6 +49,7 @@ class SecondApprovalNoteDeFraisMail extends Mailable
             view: 'emails.ApprovalNoteDeFraisMail',
         );
     }
+
     /**
      * Get the attachments for the message.
      *

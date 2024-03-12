@@ -4,12 +4,8 @@ namespace App\Filament\Resources\DltResource\Pages;
 
 use App\Filament\Resources\DltResource;
 use App\Models\Dlt;
-use App\Models\Ticketing;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-
 
 class CreateDlt extends CreateRecord
 {
@@ -19,6 +15,7 @@ class CreateDlt extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
     protected function beforeSave(): void
     {
         $verifkey = $this->form->getState()['verifkey'] ?? null;
@@ -33,5 +30,4 @@ class CreateDlt extends CreateRecord
             }
         }
     }
-
 }

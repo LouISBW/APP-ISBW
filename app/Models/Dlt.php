@@ -27,17 +27,13 @@ class Dlt extends Model
 
     }
 
-    public function statut() : BelongsTo
+    public function statut(): BelongsTo
     {
         return $this->belongsTo(Statut::class);
     }
 
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
-
-
-
 }

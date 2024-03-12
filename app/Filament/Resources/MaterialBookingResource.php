@@ -3,14 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MaterialBookingResource\Pages;
-use App\Filament\Resources\MaterialBookingResource\RelationManagers;
 use App\Models\MaterialBooking;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
@@ -21,26 +18,22 @@ use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 
 class MaterialBookingResource extends Resource
 {
     protected static ?string $model = MaterialBooking::class;
 
     protected static ?string $navigationGroup = 'Mes demandes';
+
     protected static ?int $navigationSort = 3;
+
     protected static ?string $navigationLabel = 'Réservation matériel';
 
     protected static ?string $modelLabel = 'Réservation Matériel';
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
-    public static function getNavigationBadge(): ?string
-    {
-        return 'NEW';
-    }
+
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->can('Voir Formulaires');
@@ -76,13 +69,9 @@ class MaterialBookingResource extends Resource
                             ->required()
                             ->timezone('Europe/Brussels')
                             ->columnStart(1)
+                            ->after('yesterday')
                             ->columnSpan(1)
                             ->label('Date de départ'),
-                        DatePicker::make('date_retour')
-                            ->required()
-                            ->timezone('Europe/Brussels')
-                            ->columnSpan(1)
-                            ->label('Date de retour'),
                         TimePicker::make('heure_depart')
                             ->required()
                             ->seconds(false)
@@ -95,6 +84,20 @@ class MaterialBookingResource extends Resource
                             ->inline()
                             ->inlineLabel(false)
                             ->boolean(),
+                        DatePicker::make('date_retour')
+                            ->required()
+                            ->columnStart(1)
+                            ->afterOrEqual('date_depart')
+                            ->timezone('Europe/Brussels')
+                            ->columnSpan(1)
+                            ->label('Date de retour'),
+                        TimePicker::make('heure_retour')
+                            ->required()
+                            ->seconds(false)
+                            ->timezone('Europe/Brussels')
+                            ->columnSpan(1)
+                            ->after('heure_depart')
+                            ->label('Heure de retour du matériel'),
                     ]),
                 Section::make('Matériel demandé')
                     ->columns(4)
@@ -151,7 +154,7 @@ class MaterialBookingResource extends Resource
                     ->schema([
                         Textarea::make('remarques')
                             ->label('Remarques')
-                            ->placeholder("Veuillez préciser ici si besoin de matériel spécifique ou si la réservation est pour un autre service")
+                            ->placeholder('Veuillez préciser ici si besoin de matériel spécifique ou si la réservation est pour un autre service')
                             ->columnSpan(4),
                     ]),
             ]);
@@ -248,6 +251,4 @@ class MaterialBookingResource extends Resource
             'edit' => Pages\EditMaterialBooking::route('/{record}/edit'),
         ];
     }
-
-
 }

@@ -3,11 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NoteDeFraisResource\Pages;
-use App\Filament\Resources\NoteDeFraisResource\RelationManagers;
-use App\Models\MaterialBooking;
 use App\Models\NoteDeFrais;
-use Filament\Actions\Action;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
@@ -15,13 +11,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Pages\Actions\CreateAction;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
 class NoteDeFraisResource extends Resource
@@ -29,25 +21,29 @@ class NoteDeFraisResource extends Resource
     protected static ?string $model = NoteDeFrais::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+
     protected static ?string $navigationGroup = 'Mes demandes';
+
     protected static ?int $navigationSort = 2;
+
     protected static ?string $navigationLabel = 'Dépot Note de Frais';
+
     protected static ?string $modelLabel = 'Dépot Note de Frais';
 
     public static function getNavigationBadge(): ?string
     {
         return 'NEW';
     }
+
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->can('Voir Phase 3');
     }
+
     public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
     {
         return false;
     }
-
-
 
     public static function form(Form $form): Form
     {
@@ -105,6 +101,7 @@ class NoteDeFraisResource extends Resource
     {
         $user = Auth::user();
         $query = NoteDeFrais::where('user_id', $user->id);
+
         return $table
             ->query($query)
             ->columns([
