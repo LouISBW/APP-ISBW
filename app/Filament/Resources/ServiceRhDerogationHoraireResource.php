@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ServiceRhDerogationHoraireResource\Pages;
 use App\Models\DerogationHoraire;
-use App\Models\Dlt;
 use App\Models\Statut;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
@@ -22,7 +21,7 @@ class ServiceRhDerogationHoraireResource extends Resource
 {
     protected static ?string $model = DerogationHoraire::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     protected static ?string $navigationLabel = 'Validation Dérogation Horaire';
 
@@ -202,6 +201,7 @@ class ServiceRhDerogationHoraireResource extends Resource
     public static function table(Table $table): Table
     {
         $query = DerogationHoraire::where('statut_id', 6);
+
         return $table
             ->query($query)
             ->defaultSort('created_at', 'desc')

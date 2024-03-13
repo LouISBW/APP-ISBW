@@ -66,6 +66,7 @@ class RoomBookingResource extends Resource
                             ->default(8),
                         DatePicker::make('date')
                             ->required()
+                            ->after('yesterday')
                             ->timezone('Europe/Brussels')
                             ->columnStart(1)
                             ->columnSpan(1)

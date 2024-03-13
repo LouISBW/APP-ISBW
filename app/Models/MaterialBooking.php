@@ -45,7 +45,7 @@ class MaterialBooking extends Model
         'autre',
         'etat_retour',
         'remarques',
-        'heure_retour'
+        'heure_retour',
     ];
 
     public function user(): BelongsTo

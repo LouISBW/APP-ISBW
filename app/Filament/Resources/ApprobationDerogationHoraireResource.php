@@ -24,7 +24,7 @@ class ApprobationDerogationHoraireResource extends Resource
 {
     protected static ?string $model = DerogationHoraire::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     protected static ?string $navigationGroup = 'Approbations';
 
