@@ -66,6 +66,7 @@ class UserPanelProvider extends PanelProvider
             ])
             ->plugins([
                 GravatarPlugin::make(),
+
             ])
             ->navigationGroups([
                 'Mes demandes',

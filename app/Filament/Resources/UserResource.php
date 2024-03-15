@@ -75,6 +75,7 @@ class UserResource extends Resource
                             ->preload()
                             ->multiple()
                             ->label('roles')
+                            ->relationship('roles', 'name')
                             ->columnSpan(3)
                             ->options(function () {
                                 return Role::where('id', '!=', 1)->pluck('name', 'id')->toArray();
